@@ -26,4 +26,10 @@ router.post("/book", addBook);
 router.get("/books", getBooks);
 router.get("/book/:id", getBook);
 
+//controllers auth
+const { register } = require("../controllers/auth");
+
+//init route controller auth
+router.post("/register", register);
+
 module.exports = router;

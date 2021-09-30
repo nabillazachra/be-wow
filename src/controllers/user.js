@@ -1,6 +1,3 @@
-// const db = require("../database/connection");
-// const { QueryTypes } = require("sequelize");
-
 const { users } = require("../../models");
 
 //Add user route
