@@ -35,11 +35,17 @@ exports.register = async (req, res) => {
       status: req.body.status,
     });
 
+    const dataToken = {
+      email: newUser.email,
+    };
+    const token = jwt.sign(dataToken, process.env.TOKEN_API);
     res.send({
       status: "success",
       data: {
-        fullname: newUser.fullname,
-        email: newUser.email,
+        user: {
+          email: newUser.email,
+          token,
+        },
       },
     });
   } catch (error) {
@@ -94,8 +100,10 @@ exports.login = async (req, res) => {
     res.status(200).send({
       status: "success",
       data: {
-        email: userExist.email,
-        token,
+        user: {
+          email: userExist.email,
+          token,
+        },
       },
     });
   } catch (error) {
