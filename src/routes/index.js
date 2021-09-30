@@ -19,11 +19,11 @@ router.patch("/user/:id", updateUser);
 router.delete("/user/:id", deleteUser);
 
 //Controller books
-// const { addBook, getBooks, getBook } = require("../controllers/books");
+const { addBook, getBooks, getBook } = require("../controllers/books");
 
 //init route controller books
-// router.post("/book", addBook);
-// router.get("/books", getBooks);
-// router.get("/book/:id", getBook);
+router.post("/book", addBook);
+router.get("/books", getBooks);
+router.get("/book/:id", getBook);
 
 module.exports = router;
