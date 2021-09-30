@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const { auth } = require("../../middlewares/auth");
+
 //Controller user
 const {
   addUser,
@@ -22,14 +24,15 @@ router.delete("/user/:id", deleteUser);
 const { addBook, getBooks, getBook } = require("../controllers/books");
 
 //init route controller books
-router.post("/book", addBook);
+router.post("/book", auth, addBook);
 router.get("/books", getBooks);
 router.get("/book/:id", getBook);
 
 //controllers auth
-const { register } = require("../controllers/auth");
+const { register, login } = require("../controllers/auth");
 
 //init route controller auth
 router.post("/register", register);
+router.post("/login", login);
 
 module.exports = router;

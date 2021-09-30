@@ -4,6 +4,8 @@ const Joi = require("joi");
 
 const bcrypt = require("bcrypt");
 
+const jwt = require("jsonwebtoken");
+
 exports.register = async (req, res) => {
   const data = req.body;
   const schema = Joi.object({
@@ -50,13 +52,12 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const data = req.body;
   const schema = Joi.object({
     email: Joi.string().min(6).email().required(),
     password: Joi.string().min(6).required(),
   });
 
-  const { error } = schema.validate(data);
+  const { error } = schema.validate(req.body);
 
   if (error) {
     return res.status(400).send({
@@ -79,17 +80,22 @@ exports.login = async (req, res) => {
     const isValid = await bcrypt.compare(req.body.password, userExist.password);
 
     if (!isValid) {
-      return res.send({
+      return res.status(400).send({
         status: "failed",
-        message: "email and password doesnt match",
+        message: "credential is invalid",
       });
     }
+
+    const dataToken = {
+      id: userExist.id,
+    };
+    const token = jwt.sign(dataToken, process.env.TOKEN_API);
 
     res.status(200).send({
       status: "success",
       data: {
-        fullname: userExist.fullname,
         email: userExist.email,
+        token,
       },
     });
   } catch (error) {
