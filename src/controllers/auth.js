@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
     fullname: Joi.string().min(5).required(),
     email: Joi.string().min(6).email().required(),
     password: Joi.string().min(6).required(),
-    status: Joi.string().required(),
+    role: Joi.string().required(),
   });
 
   const { error } = schema.validate(data);
@@ -26,13 +26,25 @@ exports.register = async (req, res) => {
 
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const cryptedPass = await bcrypt.hash(req.body.password, salt);
+
+    const userExist = await users.findOne({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (userExist) {
+      return res.send({
+        msg: "email already used",
+      });
+    }
 
     const newUser = await users.create({
       fullname: req.body.fullname,
       email: req.body.email,
-      password: hashedPassword,
-      status: req.body.status,
+      password: cryptedPass,
+      role: req.body.status,
     });
 
     const dataToken = {

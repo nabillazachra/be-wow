@@ -15,12 +15,6 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       });
-      users.hasMany(models.transaction, {
-        as: "adminTransaction",
-        foreignKey: {
-          name: "adminId",
-        },
-      });
       users.hasMany(models.books, {
         as: "books",
         foreignKey: {
@@ -40,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       fullname: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      status: DataTypes.STRING,
+      role: DataTypes.STRING,
     },
     {
       sequelize,
