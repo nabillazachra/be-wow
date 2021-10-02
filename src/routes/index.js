@@ -45,4 +45,18 @@ const { register, login } = require("../controllers/auth");
 router.post("/register", register);
 router.post("/login", login);
 
+//controllers transactions
+const {
+  addTransaction,
+  getTransactions,
+  getTransaction,
+  updateTransaction,
+} = require("../controllers/transaction");
+
+//init route controller transactions
+router.post("/transaction", auth, uploadFile("transferProof"), addTransaction);
+router.get("/transactions", getTransactions);
+router.get("/transaction/:id", getTransaction);
+router.patch("/transaction/:id", auth, updateTransaction);
+
 module.exports = router;

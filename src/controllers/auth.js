@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
       fullname: req.body.fullname,
       email: req.body.email,
       password: cryptedPass,
-      role: req.body.status,
+      role: req.body.role,
     });
 
     const dataToken = {

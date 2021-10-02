@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       remainingActive: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       userStatus: {
         type: Sequelize.STRING,
