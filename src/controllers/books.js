@@ -109,11 +109,17 @@ exports.getBook = async (req, res) => {
       },
     });
 
+    book = JSON.parse(JSON.stringify(book));
+
+    book = {
+      ...book,
+      bookFile: process.env.FILE_PATH + book.bookFile,
+    };
+
     res.send({
       status: "success",
       data: {
         book,
-        bookFile: process.env.FILE_PATH + bookData.bookFile,
       },
     });
   } catch (error) {
@@ -148,7 +154,7 @@ exports.updateBook = async (req, res) => {
   }
 
   try {
-    const values = {
+    let values = {
       ...data,
       bookFile: req.file.filename,
       userId: req.users.id,
@@ -158,12 +164,16 @@ exports.updateBook = async (req, res) => {
 
     await books.update(values, whereId);
 
+    values = {
+      ...values,
+      bookFile: process.env.FILE_PATH + values.bookFile,
+    };
+
     res.send({
       status: "success",
       message: `Update book with id ${id} finished`,
       data: {
         values,
-        bookFile: process.env.FILE_PATH + values.bookFile,
       },
     });
   } catch (error) {
