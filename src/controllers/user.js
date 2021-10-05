@@ -95,7 +95,7 @@ exports.deleteUser = async (req, res) => {
 
     res.send({
       status: "success",
-      message: `Delete user with id ${id} finished`,
+      data: {id: `${id}`,}
     });
   } catch (error) {
     console.log(error);

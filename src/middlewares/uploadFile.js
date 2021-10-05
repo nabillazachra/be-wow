@@ -23,7 +23,7 @@ exports.uploadFile = (files) => {
     cb(null, true);
   };
 
-  const sizeInMB = 10;
+  const sizeInMB = 30;
   const maxSize = sizeInMB * 1000 * 1000;
 
   const upload = multer({
@@ -49,7 +49,7 @@ exports.uploadFile = (files) => {
       if (err) {
         if (err.code == "LIMIT_FILE_SIZE") {
           return res.status(400).send({
-            message: "max file sized 10MB",
+            message: "max file sized 30MB",
           });
         }
 

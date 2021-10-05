@@ -5,10 +5,23 @@ exports.addTransaction = async (req, res) => {
   try {
     const data = req.body;
 
+    const schema = Joi.object({
+    userId: Joi.number().required(),
+  });
+
+  const { error } = schema.validate(data);
+
+  if (error) {
+    return res.status(400).send({
+      status: "error",
+      message: error.details[0].message,
+    });
+  }
+
     const newTrans = await transaction.create({
       transferProof: req.file.filename,
       remainingActive: "30",
-      userStatus: "Active",
+      userStatus: "Not Active",
       paymentStatus: "Pending",
       userId: req.users.id,
     });
@@ -32,10 +45,8 @@ exports.addTransaction = async (req, res) => {
     res.send({
       status: "success",
       data: {
-        transData: {
           ...transactionData.dataValues,
           transferProof: process.env.FILE_PATH + transactionData.transferProof,
-        },
       },
     });
   } catch (error) {
@@ -49,7 +60,7 @@ exports.addTransaction = async (req, res) => {
 
 exports.getTransactions = async (req, res) => {
   try {
-    let transactionData = await transaction.findAll({
+    let transactions = await transaction.findAll({
       include: {
         model: users,
         as: "users",
@@ -62,9 +73,9 @@ exports.getTransactions = async (req, res) => {
       },
     });
 
-    transactionData = JSON.parse(JSON.stringify(transactionData));
+    transactions = JSON.parse(JSON.stringify(transactions));
 
-    transactionData = transactionData.map((data) => {
+    transactions = transactions.map((data) => {
       return {
         ...data,
         transferProof: process.env.FILE_PATH + data.transferProof,
@@ -73,7 +84,9 @@ exports.getTransactions = async (req, res) => {
 
     res.send({
       status: "success",
-      transactionData,
+      data: {
+        transactions,
+     }
     });
   } catch (error) {
     console.log(error);
@@ -87,7 +100,7 @@ exports.getTransactions = async (req, res) => {
 exports.getTransaction = async (req, res) => {
   try {
     const { id } = req.params;
-    let transactionData = await transaction.findOne({
+    let data = await transaction.findOne({
       where: {
         id,
       },
@@ -103,16 +116,18 @@ exports.getTransaction = async (req, res) => {
       },
     });
 
-    transactionData = JSON.parse(JSON.stringify(transactionData));
+    data = JSON.parse(JSON.stringify(data));
 
-    transactionData = {
-      ...transactionData,
-      transferProof: process.env.FILE_PATH + transactionData.transferProof,
+    data = {
+      ...data,
+      transferProof: process.env.FILE_PATH + data.transferProof,
     };
 
     res.send({
       status: "success",
-      transactionData,
+      data: {
+        transaction: data
+      }
     });
   } catch (error) {
     console.log(error);
@@ -153,7 +168,7 @@ exports.updateTransaction = async (req, res) => {
     res.send({
       status: "success",
       data: {
-        transData,
+          transData
       },
     });
   } catch (error) {

@@ -58,7 +58,7 @@ exports.addBook = async (req, res) => {
 //Get all data books
 exports.getBooks = async (req, res) => {
   try {
-    let data = await books.findAll({
+    let bookData = await books.findAll({
       include: {
         model: users,
         as: "users",
@@ -71,9 +71,9 @@ exports.getBooks = async (req, res) => {
       },
     });
 
-    data = JSON.parse(JSON.stringify(data));
+    bookData = JSON.parse(JSON.stringify(bookData));
 
-    data = data.map((item) => {
+    bookData = bookData.map((item) => {
       return {
         ...item,
         bookFile: process.env.FILE_PATH + item.bookFile,
@@ -81,7 +81,7 @@ exports.getBooks = async (req, res) => {
     });
     res.send({
       status: "success",
-      data,
+      data: {books: bookData}
     });
   } catch (error) {
     console.log(error);
@@ -154,7 +154,7 @@ exports.updateBook = async (req, res) => {
   }
 
   try {
-    let values = {
+    let book = {
       ...data,
       bookFile: req.file.filename,
       userId: req.users.id,
@@ -162,18 +162,18 @@ exports.updateBook = async (req, res) => {
 
     const whereId = { where: { id } };
 
-    await books.update(values, whereId);
+    await books.update(book, whereId);
 
-    values = {
-      ...values,
-      bookFile: process.env.FILE_PATH + values.bookFile,
+    book = {
+      ...book,
+      bookFile: process.env.FILE_PATH + book.bookFile,
     };
 
     res.send({
       status: "success",
       message: `Update book with id ${id} finished`,
       data: {
-        values,
+        book,
       },
     });
   } catch (error) {
@@ -194,7 +194,7 @@ exports.deleteBook = async (req, res) => {
 
     res.send({
       status: "success",
-      message: `Delete book with id ${id} finished`,
+      data: {id: `${id}`,}
     });
   } catch (error) {
     console.log(error);
