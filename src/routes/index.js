@@ -59,4 +59,9 @@ router.get("/transactions", getTransactions);
 router.get("/transaction/:id", getTransaction);
 router.patch("/transaction/:id", auth, updateTransaction);
 
+const { addList, getLists } = require("../controllers/booklist");
+
+router.post("/book-list", auth, addList);
+router.get("/book-lists", auth, getLists);
+
 module.exports = router;

@@ -33,7 +33,7 @@ exports.addBook = async (req, res) => {
         id: newBook.id,
       },
       attributes: {
-        exclude: ["userId", "booksId", "createdAt", "updatedAt"],
+        exclude: ["userId", "bookId", "createdAt", "updatedAt"],
       },
     });
 
@@ -67,7 +67,7 @@ exports.getBooks = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["booksId", "createdAt", "updatedAt", "userId"],
+        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 
@@ -81,7 +81,7 @@ exports.getBooks = async (req, res) => {
     });
     res.send({
       status: "success",
-      data: {books: bookData}
+      data: { books: bookData },
     });
   } catch (error) {
     console.log(error);
@@ -105,7 +105,7 @@ exports.getBook = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["booksId", "createdAt", "updatedAt", "userId"],
+        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 
@@ -194,7 +194,7 @@ exports.deleteBook = async (req, res) => {
 
     res.send({
       status: "success",
-      data: {id: `${id}`,}
+      data: { id: `${id}` },
     });
   } catch (error) {
     console.log(error);

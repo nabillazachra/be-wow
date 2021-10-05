@@ -15,12 +15,6 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       });
-      transaction.belongsTo(models.bookList, {
-        as: "bookList",
-        foreignKey: {
-          name: "transId",
-        },
-      });
     }
   }
   transaction.init(

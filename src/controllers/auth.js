@@ -91,7 +91,7 @@ exports.login = async (req, res) => {
         email: req.body.email,
       },
       attributes: {
-        exclude: ["createdAt", "updatedAt"],
+        exclude: ["userId", "createdAt", "updatedAt"],
       },
     });
 
