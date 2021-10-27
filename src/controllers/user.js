@@ -1,4 +1,4 @@
-const { users } = require("../../models");
+const { users, profile } = require("../../models");
 
 //Add user route
 exports.addUser = async (req, res) => {
@@ -28,7 +28,7 @@ exports.getUsers = async (req, res) => {
     });
     res.send({
       status: "success",
-      data: { user },
+      data: { users: user },
     });
   } catch (error) {
     console.log(error);
@@ -95,7 +95,7 @@ exports.deleteUser = async (req, res) => {
 
     res.send({
       status: "success",
-      message: `Delete user with id ${id} finished`,
+      data: {id: `${id}`,}
     });
   } catch (error) {
     console.log(error);

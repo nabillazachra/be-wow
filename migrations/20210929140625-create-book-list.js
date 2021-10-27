@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      booksId: {
+      bookId: {
         type: Sequelize.INTEGER,
         references: {
           model: "books",
@@ -17,10 +17,10 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      transId: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "transactions",
+          model: "users",
           key: "id",
         },
         onUpdate: "CASCADE",

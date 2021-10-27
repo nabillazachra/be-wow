@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
       bookList.hasMany(models.books, {
         as: "books",
         foreignKey: {
-          name: "booksId",
+          name: "bookId",
         },
       });
-      bookList.hasOne(models.transaction, {
-        as: "transaction",
-        foreignKey: "transId",
-      });
+      // bookList.hasMany(models.users, {
+      //   as: "users",
+      //   foreignKey: "userId",
+      // });
     }
   }
   bookList.init(
     {
-      booksId: DataTypes.INTEGER,
-      transId: DataTypes.INTEGER,
+      bookId: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

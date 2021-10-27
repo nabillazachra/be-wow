@@ -9,26 +9,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      users.hasMany(models.bookList, {
+        as: "bookList",
+        foreignKey: {
+          name: "userId",
+        },
+      });
       users.hasMany(models.transaction, {
         as: "clientTransaction",
         foreignKey: {
           name: "userId",
         },
       });
-      users.hasMany(models.transaction, {
-        as: "adminTransaction",
-        foreignKey: {
-          name: "adminId",
-        },
-      });
       users.hasMany(models.books, {
         as: "books",
-        foreignKey: {
-          name: "userId",
-        },
-      });
-      users.hasOne(models.profile, {
-        as: "profile",
         foreignKey: {
           name: "userId",
         },
@@ -40,7 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       fullname: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      status: DataTypes.STRING,
+      role: DataTypes.STRING,
+      phone: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      address: DataTypes.TEXT,
     },
     {
       sequelize,

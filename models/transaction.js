@@ -15,28 +15,15 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       });
-      transaction.belongsTo(models.users, {
-        as: "admin",
-        foreignKey: {
-          name: "adminId",
-        },
-      });
-      transaction.belongsTo(models.bookList, {
-        as: "bookList",
-        foreignKey: {
-          name: "transId",
-        },
-      });
     }
   }
   transaction.init(
     {
       transferProof: DataTypes.STRING,
-      remainingActive: DataTypes.STRING,
+      remainingActive: DataTypes.INTEGER,
       userStatus: DataTypes.STRING,
       paymentStatus: DataTypes.STRING,
       userId: DataTypes.INTEGER,
-      adminId: DataTypes.INTEGER,
     },
     {
       sequelize,
